@@ -1,3 +1,4 @@
 lab00/
 *.tar.gz
 .svn
+*.o
