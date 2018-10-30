@@ -5,4 +5,4 @@ userprog/syscall.o: ../../userprog/syscall.c ../../userprog/syscall.h \
  ../../threads/interrupt.h ../../threads/thread.h ../../lib/kernel/list.h \
  ../../lib/kernel/bitmap.h ../../lib/inttypes.h ../../threads/init.h \
  ../../filesys/filesys.h ../../filesys/off_t.h ../../devices/input.h \
- ../../filesys/file.h ../../userprog/process.h ../../lib/string.h
+ ../../filesys/file.h
