@@ -1,0 +1,147 @@
+#include "userprog/syscall.h"
+#include <stdio.h>
+#include <syscall-nr.h>
+#include "threads/interrupt.h"
+#include "threads/thread.h"
+#include "threads/init.h"
+#include "filesys/filesys.h"
+#include "devices/input.h"
+#include "filesys/file.h"
+
+static void syscall_handler (struct intr_frame *);
+
+void
+syscall_init (void) 
+{
+  intr_register_int (0x30, 3, INTR_ON, syscall_handler, "syscall");
+}
+
+static void
+syscall_handler (struct intr_frame *f UNUSED) 
+{
+  //printf ("system call!\n");
+  //thread_exit ();
+  
+  
+  //Get syscall number from the stack
+  int * sysnum = f->esp;
+  int * fd;
+  char ** buf;
+  void ** filebuf;
+  unsigned * len;
+  char ** filename;
+  off_t * size;
+  int retval;
+  uint8_t readval;
+  size_t id;
+  struct file * file;
+  struct thread * cur_thread = thread_current();
+  switch (*sysnum) 
+    {
+    case SYS_HALT :
+      power_off();
+      break;
+    case SYS_EXIT:
+      break;
+    case SYS_WAIT:
+      break;
+    case SYS_OPEN:
+      filename = f->esp+4;
+      id = bitmap_scan_and_flip(cur_thread->fd_map,0,1,0);
+      if(id != BITMAP_ERROR){
+	file = filesys_open(*filename);
+	if(file != NULL){
+	  //printf("cur_thread->fd[3]\n");
+	  cur_thread->fd[id] = file;
+	  f->eax = id+2;
+	} else {
+	  f->eax = -1;
+	  bitmap_flip(cur_thread->fd_map,id);
+	}
+      } else {
+	f->eax = -1;
+	bitmap_flip(cur_thread->fd_map,id);
+      }
+      break;
+    case SYS_CLOSE:
+      fd = f->esp+4;
+      if(*fd >= 2 && *fd < FILE_BITMAP_SIZE+2){
+	*fd-=2;
+	//printf("cur_thread->fd[2]\n");
+	file_close(cur_thread->fd[*fd]);
+	cur_thread->fd[*fd] = NULL;
+	bitmap_flip(cur_thread->fd_map,*fd);
+      } 
+      break;
+    case SYS_WRITE:
+      fd = f->esp+4; 
+      if(2 <= *fd && *fd < FILE_BITMAP_SIZE+2){
+	f->eax = -1;
+	return;
+      }
+      len = f->esp+12; 
+      //printf("%d = this FD\n",*fd);
+      if(*fd == STDOUT_FILENO){
+	buf = f->esp+8;
+	putbuf(*buf, *len);
+	f->eax = *len;
+      } else {
+	*fd-=2;
+	filebuf = f->esp+8;
+	printf("cur_thread->fd[1]\n");
+	printf("%d FD right before crash\n",*fd);
+	printf("%d bitmap_size right before crash\n",bitmap_size(cur_thread->fd_map));
+	if(bitmap_test(cur_thread->fd_map,*fd)){
+	  //printf("\n%p Pointer of cur_thread->fd[FD]\n",cur_thread->fd[*fd]);
+	  //printf("\n%p Pointer of test_ptr\n",test_ptr);
+	  //printf("Getting this far\n");
+	  retval = file_write(cur_thread->fd[*fd],*filebuf,*len);
+	  f->eax = retval;
+	} else {
+	  f->eax = -1;
+	}
+      }
+      break;
+    case SYS_CREATE:
+      filename = f->esp+4;
+      size = f->esp+8;
+      if(filesys_create(*filename,*size)){
+	f->eax = true;
+      } else {
+	f->eax = false;
+      }
+      break;
+    case SYS_READ:
+      fd = f->esp+4;
+      if(0 <= *fd && *fd < FILE_BITMAP_SIZE+2){
+	len = f->esp+12;
+	if(*fd == STDIN_FILENO){
+	  buf = f->esp+8;
+	  f->eax = *len;
+	  while(*len != 0){
+	    readval = input_getc();
+	    **buf = readval;
+	    *buf+=1;
+	    *len-=1;
+	  }
+	} else {
+	  *fd-=2;
+	  filebuf = f->esp+8;
+	  if(bitmap_test(cur_thread->fd_map,*fd)){
+	    //printf("cur_thread->fd[4]\n");
+	    retval = file_read(cur_thread->fd[*fd],*filebuf,*len);
+	    f->eax = retval;
+	  } else {
+	    f->eax = -1;
+	  }
+	}
+      } else {
+	f->eax = -1;
+      }
+      break;
+    default:
+      printf("system call!\n");
+      thread_exit();
+      break;
+    }
+}

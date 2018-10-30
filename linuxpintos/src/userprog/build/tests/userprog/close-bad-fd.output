@@ -1,0 +1,306 @@
+Copying tests/userprog/close-bad-fd into /tmp/0lC99LQoR4.dsk...
+Writing command line to /tmp/5bvd9F1v_m.dsk...
+qemu -hda /tmp/5bvd9F1v_m.dsk -hdb /tmp/cQRnNZPgH1.dsk -hdc /tmp/0lC99LQoR4.dsk -m 4 -net none -nographic -monitor null
+Kernel command line: -q -f put close-bad-fd run close-bad-fd
+Pintos booting with 4,088 kB RAM...
+372 pages available in kernel pool.
+371 pages available in user pool.
+Calibrating timer...  419,020,800 loops/s.
+hd0:0: detected 153 sector (76 kB) disk, model "QEMU HARDDISK", serial "QM00001"
+hd0:1: detected 4,032 sector (1 MB) disk, model "QEMU HARDDISK", serial "QM00002"
+hd1:0: detected 97 sector (48 kB) disk, model "QEMU HARDDISK", serial "QM00003"
+Formatting file system...done.
+Boot complete.
+Putting 'close-bad-fd' into the file system...
+Executing 'close-bad-fd':
+Kernel PANIC at ../../lib/kernel/list.c:259 in list_remove(): assertion `is_interior (elem)' failed.
+Call stack: 0xc010705b 0x61622d65Page fault at 0x736f6c63: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc0105297
+ cr2=736f6c63 error=00000000
+ eax=0000000b ebx=736f6c63 ecx=000005c1 edx=000003d4
+ esi=00000103 edi=c010c731 esp=c010dbbb ebp=c002fe58
+ cs=0008 ds=0010 es=0010 ss=2d65
+Kernel PANIC recursion at ../../userprog/exception.c:100 in kill().
+Page fault at 0xcccccce0: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b8d2
+ cr2=cccccce0 error=00000000
+ eax=cccccccc ebx=c011a03c ecx=c011a04c edx=c011a04c
+ esi=000000c5 edi=c010c16f esp=c0113ac0 ebp=c01138b8
+ cs=0008 ds=0010 es=0010 ss=03fd
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=00000000 ebp=c002fb54
+ cs=0008 ds=0010 es=0010 ss=0000
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f9c8
+ cs=0008 ds=0010 es=0010 ss=0064
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f83c
+ cs=0008 ds=0010 es=0010 ss=0030
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f6b0
+ cs=0008 ds=0010 es=0010 ss=0034
+Page fault at 0xccccccd8: not present error reading page in keKernel command line: -q -f put close-bad-fd run close-bad-fd
+Pintos booting with 4,088 kB RAM...
+372 pages available in kernel pool.
+371 pages available in user pool.
+Calibrating timer...  419,020,800 loops/s.
+hd0:0: detected 153 sector (76 kB) disk, model "QEMU HARDDISK", serial "QM00001"
+hd0:1: detected 4,032 sector (1 MB) disk, model "QEMU HARDDISK", serial "QM00002"
+hd1:0: detected 97 sector (48 kB) disk, model "QEMU HARDDISK", serial "QM00003"
+Formatting file system...done.
+Boot complete.
+Putting 'close-bad-fd' into the file system...
+Executing 'close-bad-fd':
+Kernel PANIC at ../../lib/kernel/list.c:259 in list_remove(): assertion `is_interior (elem)' failed.
+Call stack: 0xc010705b 0x61622d65Page fault at 0x736f6c63: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc0105297
+ cr2=736f6c63 error=00000000
+ eax=0000000b ebx=736f6c63 ecx=000005c1 edx=000003d4
+ esi=00000103 edi=c010c731 esp=c010dbbb ebp=c002fe58
+ cs=0008 ds=0010 es=0010 ss=2d65
+Kernel PANIC recursion at ../../userprog/exception.c:100 in kill().
+Page fault at 0xcccccce0: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b8d2
+ cr2=cccccce0 error=00000000
+ eax=cccccccc ebx=c011a03c ecx=c011a04c edx=c011a04c
+ esi=000000c5 edi=c010c16f esp=c0113ac0 ebp=c01138b8
+ cs=0008 ds=0010 es=0010 ss=03fd
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=00000000 ebp=c002fb54
+ cs=0008 ds=0010 es=0010 ss=0000
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f9c8
+ cs=0008 ds=0010 es=0010 ss=0064
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f83c
+ cs=0008 ds=0010 es=0010 ss=0030
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f6b0
+ cs=0008 ds=0010 es=0010 ss=0034
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Kernel command line: -q -f put close-bad-fd run close-bad-fd
+Pintos booting with 4,088 kB RAM...
+372 pages available in kernel pool.
+371 pages available in user pool.
+Calibrating timer...  419,020,800 loops/s.
+hd0:0: detected 153 sector (76 kB) disk, model "QEMU HARDDISK", serial "QM00001"
+hd0:1: detected 4,032 sector (1 MB) disk, model "QEMU HARDDISK", serial "QM00002"
+hd1:0: detected 97 sector (48 kB) disk, model "QEMU HARDDISK", serial "QM00003"
+Formatting file system...done.
+Boot complete.
+Putting 'close-bad-fd' into the file system...
+Executing 'close-bad-fd':
+Kernel PANIC at ../../lib/kernel/list.c:259 in list_remove(): assertion `is_interior (elem)' failed.
+Call stack: 0xc010705b 0x61622d65Page fault at 0x736f6c63: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc0105297
+ cr2=736f6c63 error=00000000
+ eax=0000000b ebx=736f6c63 ecx=000005c1 edx=000003d4
+ esi=00000103 edi=c010c731 esp=c010dbbb ebp=c002fe58
+ cs=0008 ds=0010 es=0010 ss=2d65
+Kernel PANIC recursion at ../../userprog/exception.c:100 in kill().
+Page fault at 0xcccccce0: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b8d2
+ cr2=cccccce0 error=00000000
+ eax=cccccccc ebx=c011a03c ecx=c011a04c edx=c011a04c
+ esi=000000c5 edi=c010c16f esp=c0113ac0 ebp=c01138b8
+ cs=0008 ds=0010 es=0010 ss=03fd
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=00000000 ebp=c002fb54
+ cs=0008 ds=0010 es=0010 ss=0000
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f9c8
+ cs=0008 ds=0010 es=0010 ss=0064
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f83c
+ cs=0008 ds=0010 es=0010 ss=0030
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f6b0
+ cs=0008 ds=0010 es=0010 ss=0034
+Page fault at 0xccccccd8: not present error reading page in kernel Kernel command line: -q -f put close-bad-fd run close-bad-fd
+Pintos booting with 4,088 kB RAM...
+372 pages available in kernel pool.
+371 pages available in user pool.
+Calibrating timer...  419,020,800 loops/s.
+hd0:0: detected 153 sector (76 kB) disk, model "QEMU HARDDISK", serial "QM00001"
+hd0:1: detected 4,032 sector (1 MB) disk, model "QEMU HARDDISK", serial "QM00002"
+hd1:0: detected 97 sector (48 kB) disk, model "QEMU HARDDISK", serial "QM00003"
+Formatting file system...done.
+Boot complete.
+Putting 'close-bad-fd' into the file system...
+Executing 'close-bad-fd':
+Kernel PANIC at ../../lib/kernel/list.c:259 in list_remove(): assertion `is_interior (elem)' failed.
+Call stack: 0xc010705b 0x61622d65Page fault at 0x736f6c63: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc0105297
+ cr2=736f6c63 error=00000000
+ eax=0000000b ebx=736f6c63 ecx=000005c1 edx=000003d4
+ esi=00000103 edi=c010c731 esp=c010dbbb ebp=c002fe58
+ cs=0008 ds=0010 es=0010 ss=2d65
+Kernel PANIC recursion at ../../userprog/exception.c:100 in kill().
+Page fault at 0xcccccce0: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b8d2
+ cr2=cccccce0 error=00000000
+ eax=cccccccc ebx=c011a03c ecx=c011a04c edx=c011a04c
+ esi=000000c5 edi=c010c16f esp=c0113ac0 ebp=c01138b8
+ cs=0008 ds=0010 es=0010 ss=03fd
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=00000000 ebp=c002fb54
+ cs=0008 ds=0010 es=0010 ss=0000
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f9c8
+ cs=0008 ds=0010 es=0010 ss=0064
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f83c
+ cs=0008 ds=0010 es=0010 ss=0030
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edxKernel command line: -q -f put close-bad-fd run close-bad-fd
+Pintos booting with 4,088 kB RAM...
+372 pages available in kernel pool.
+371 pages available in user pool.
+Calibrating timer...  419,020,800 loops/s.
+hd0:0: detected 153 sector (76 kB) disk, model "QEMU HARDDISK", serial "QM00001"
+hd0:1: detected 4,032 sector (1 MB) disk, model "QEMU HARDDISK", serial "QM00002"
+hd1:0: detected 97 sector (48 kB) disk, model "QEMU HARDDISK", serial "QM00003"
+Formatting file system...done.
+Boot complete.
+Putting 'close-bad-fd' into the file system...
+Executing 'close-bad-fd':
+Kernel PANIC at ../../lib/kernel/list.c:259 in list_remove(): assertion `is_interior (elem)' failed.
+Call stack: 0xc010705b 0x61622d65Page fault at 0x736f6c63: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc0105297
+ cr2=736f6c63 error=00000000
+ eax=0000000b ebx=736f6c63 ecx=000005c1 edx=000003d4
+ esi=00000103 edi=c010c731 esp=c010dbbb ebp=c002fe58
+ cs=0008 ds=0010 es=0010 ss=2d65
+Kernel PANIC recursion at ../../userprog/exception.c:100 in kill().
+Page fault at 0xcccccce0: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b8d2
+ cr2=cccccce0 error=00000000
+ eax=cccccccc ebx=c011a03c ecx=c011a04c edx=c011a04c
+ esi=000000c5 edi=c010c16f esp=c0113ac0 ebp=c01138b8
+ cs=0008 ds=0010 es=0010 ss=03fd
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=00000000 ebp=c002fb54
+ cs=0008 ds=0010 es=0010 ss=0000
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f9c8
+ cs=0008 ds=0010 es=0010 ss=0064
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f83c
+ cs=0008 ds=0010 es=0010 ss=0030
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f6b0
+ cs=0008 ds=0010 es=0010 ss=0034
+Page fault at 0xccccccd8: not present error readKernel command line: -q -f put close-bad-fd run close-bad-fd
+Pintos booting with 4,088 kB RAM...
+372 pages available in kernel pool.
+371 pages available in user pool.
+Calibrating timer...  419,020,800 loops/s.
+hd0:0: detected 153 sector (76 kB) disk, model "QEMU HARDDISK", serial "QM00001"
+hd0:1: detected 4,032 sector (1 MB) disk, model "QEMU HARDDISK", serial "QM00002"
+hd1:0: detected 97 sector (48 kB) disk, model "QEMU HARDDISK", serial "QM00003"
+Formatting file system...done.
+Boot complete.
+Putting 'close-bad-fd' into the file system...
+Executing 'close-bad-fd':
+Kernel PANIC at ../../lib/kernel/list.c:259 in list_remove(): assertion `is_interior (elem)' failed.
+Call stack: 0xc010705b 0x61622d65Page fault at 0x736f6c63: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc0105297
+ cr2=736f6c63 error=00000000
+ eax=0000000b ebx=736f6c63 ecx=000005c1 edx=000003d4
+ esi=00000103 edi=c010c731 esp=c010dbbb ebp=c002fe58
+ cs=0008 ds=0010 es=0010 ss=2d65
+Kernel PANIC recursion at ../../userprog/exception.c:100 in kill().
+Page fault at 0xcccccce0: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b8d2
+ cr2=cccccce0 error=00000000
+ eax=cccccccc ebx=c011a03c ecx=c011a04c edx=c011a04c
+ esi=000000c5 edi=c010c16f esp=c0113ac0 ebp=c01138b8
+ cs=0008 ds=0010 es=0010 ss=03fd
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=00000000 ebp=c002fb54
+ cs=0008 ds=0010 es=0010 ss=0000
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f9c8
+ cs=0008 ds=0010 es=0010 ss=0064
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+ eax=cccccccc ebx=cccccccc ecx=00000780 edx=000003d4
+ esi=00000064 edi=c010c905 esp=c0108c94 ebp=c002f83c
+ cs=0008 ds=0010 es=0010 ss=0030
+Page fault at 0xccccccd8: not present error reading page in kernel context.
+Interrupt 0x0e (#PF Page-Fault Exception) at eip=0xc010b532
+ cr2=ccccccd8 error=00000000
+Kernel command line: -q -f put close-bad-fd run close-bad-fd
+Pintos booting with 4,088 kB RAM...
+372 pages available in kernel pool.
+371 pages available in user pool.
+Calibrating timer...  419,020,800 loops/s.
+hd0:0: detected 153 sector (76 kB) disk, model "QEMU HARDDISK", serial "QM00001"
+hd0:1: detected 4,032 sector (1 MB) disk, model "QEMU HARDDISK", serial "QM00002"
+Simulation terminated due to kernel panic.

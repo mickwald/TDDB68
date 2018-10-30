@@ -1,0 +1,5 @@
+FAIL
+Kernel panic in run: PANIC at ../../lib/kernel/list.c:259 in list_remove(): assertion `is_interior (elem)' failed.
+Call stack: 0xc010705b
+Translation of call stack:
+0xc010705b: debug_panic (.../../lib/kernel/debug.c:34)

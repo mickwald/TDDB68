@@ -1,0 +1,2 @@
+Use of uninitialized value in numeric le (<=) at /home/micka199/TDDB68/linuxpintos/src/utils//pintos line 767.
+qemu: terminating on signal 2 from pid 54274
