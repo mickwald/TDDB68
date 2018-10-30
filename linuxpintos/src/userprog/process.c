@@ -17,6 +17,8 @@
 #include "threads/palloc.h"
 #include "threads/thread.h"
 #include "threads/vaddr.h"
+#include "threads/malloc.h"
+#include "threads/synch.h"
 
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline, void (**eip) (void), void **esp);
@@ -32,9 +34,11 @@ process_execute (const char *file_name)
   tid_t tid;
   struct child_info * ci = (struct child_info *) malloc(sizeof(struct child_info));
   sema_init(&ci->child_loaded,0);
-  &ci->alive_count = 2;
-  &ci->exit_code = -1;
-  list_push_back(&thread_current()->child_list, &ci->child_elem);
+  sema_init(&ci->wait_sema,0);
+  lock_init(&ci->exit_lock);
+  ci->alive_count = 2;
+  ci->exit_code = -1;
+  list_push_back(&thread_current()->child_list, ci->child_elem);
   thread_current()->ci_copy = ci;
 
   /* Make a copy of FILE_NAME.
@@ -47,7 +51,7 @@ process_execute (const char *file_name)
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
   sema_down(&ci->child_loaded);
-  &ci->child_tid = tid;
+  ci->child_tid = tid;
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy);
   return tid;
@@ -77,7 +81,7 @@ start_process (void *file_name_)
     thread_exit ();
 
   sema_up(&thread_current()->parent_ci->child_loaded);
-  &thread_current()->parent_ci->child_load_success = true;
+  thread_current()->parent_ci->parent->child_load_success = true;
   /* Start the user process by simulating a return from an
      interrupt, implemented by intr_exit (in
      threads/intr-stubs.S).  Because intr_exit takes all of its
@@ -98,9 +102,17 @@ start_process (void *file_name_)
    This function will be implemented in problem 2-2.  For now, it
    does nothing. */
 int
-process_wait (tid_t child_tid UNUSED)
+process_wait (tid_t child_tid)
 {
-  while(true){
+  struct list * tmp_list = &thread_current()->child_list;
+  struct list_elem * e;
+  for ( e = list_begin(tmp_list); e != list_end(tmp_list); e = list_next(e)){
+    struct child_info * tmp_ci = list_entry(e, struct thread, elem)->ci_copy;
+    if(tmp_ci->child_tid == child_tid){
+      sema_down(&tmp_ci->wait_sema);
+      list_remove(tmp_ci->child_elem);
+      return tmp_ci->exit_code;
+    }
   }
   return -1;
 }
@@ -111,6 +123,31 @@ process_exit (void)
 {
   struct thread *cur = thread_current ();
   uint32_t *pd;
+
+  struct thread * parent = cur->parent_ci->parent;
+  if(parent != NULL){
+    lock_acquire(&cur->parent_ci->exit_lock);
+    cur->parent_ci->alive_count--;
+    lock_release(&cur->parent_ci->exit_lock);
+
+    if(cur->parent_ci->alive_count == 0){
+      free(cur->parent_ci);
+    } else {
+      sema_up(&cur->parent_ci->wait_sema);
+    }
+  }
+
+  struct list * tmp_list = &cur->child_list;
+  struct list_elem * e;
+  for ( e = list_begin(tmp_list); e != list_end(tmp_list); e = list_next(e)){
+    struct child_info * tmp_ci = list_entry(e, struct thread, elem)->ci_copy;
+    lock_acquire(&tmp_ci->exit_lock);
+    tmp_ci->alive_count--;
+    lock_release(&tmp_ci->exit_lock);
+    if(&tmp_ci->alive_count == 0){
+      free(tmp_ci);
+    }
+  }
 
   /* Destroy the current process's page directory and switch back
      to the kernel-only page directory. */

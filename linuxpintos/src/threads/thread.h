@@ -120,6 +120,8 @@ struct child_info{
   struct thread * child;
   struct thread * parent;
   struct semaphore child_loaded;
+  struct semaphore wait_sema;
+  struct lock exit_lock;
   struct list_elem * child_elem;
   int alive_count;        /* bool other_exited, check for true when exiting? */
   int exit_code;
