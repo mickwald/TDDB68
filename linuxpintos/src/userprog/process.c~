@@ -17,30 +17,9 @@
 #include "threads/palloc.h"
 #include "threads/thread.h"
 #include "threads/vaddr.h"
-#include "lib/kernel/list.h"
-#include "threads/malloc.h"
-#include "threads/synch.h"
-
 
 static thread_func start_process NO_RETURN;
 static bool load (const char *cmdline, void (**eip) (void), void **esp);
-
-/* List of children and associated struct for information of the child */
-struct list children;
-
-struct child{
-  struct list_elem * elem;
-  struct child_status * child_info;
-};
-
-struct child_status{
-  struct semaphore wait;
-  bool hasExit;				// for exit and clearing of cs
-  int child_exitcode;		// for wait
-  int ref_cnt;
-};
-
-struct child_status * parent_info;
 
 /* Starts a new thread running a user program loaded from
    FILENAME.  The new thread may be scheduled (and may even exit)
@@ -51,7 +30,7 @@ process_execute (const char *file_name)
 {
   char *fn_copy;
   tid_t tid;
-  
+
   /* Make a copy of FILE_NAME.
      Otherwise there's a race between the caller and load(). */
   fn_copy = palloc_get_page (0);
@@ -59,29 +38,10 @@ process_execute (const char *file_name)
     return TID_ERROR;
   strlcpy (fn_copy, file_name, PGSIZE);
 
-  /* Initiate children list. */
-  list_init(&children);
-  
-  /* Create child_status struct. */
-  struct child * child = malloc(sizeof(struct child));
-  child->child_info = malloc(sizeof(struct child_status));
-  sema_init(&child->child_info->wait,0);
-  child->child_info->hasExit = false;
-  child->child_info->child_exitcode = -1;
-  child->child_info->ref_cnt = 1;
-  
-  /* Push child_status to children list. */
-  list_push_back(&children,child->elem);
-
-  
-  
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
   if (tid == TID_ERROR)
-    palloc_free_page (fn_copy);
-    //list_remove(child->elem);
-    free(child->child_info);
-    free(child);
+    palloc_free_page (fn_copy); 
   return tid;
 }
 
@@ -128,12 +88,9 @@ start_process (void *file_name_)
 int
 process_wait (tid_t child_tid UNUSED) 
 {
-  int retval = -1;
-
-
   while(true){
   }
-  return retval;
+  return -1;
 }
 
 /* Free the current process's resources. */

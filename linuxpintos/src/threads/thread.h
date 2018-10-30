@@ -95,7 +95,12 @@ struct thread
 
     /* Shared between thread.c and synch.c. */
     struct list_elem elem;              /* List element. */
-    
+
+    struct list child_list;
+    bool child_load_success;
+    struct child_info * parent_ci;
+    struct child_info * ci_copy;
+
 #ifdef USERPROG
     /* File Descriptor data. */
     struct bitmap * fd_map;      /* Open file map. */
@@ -109,6 +114,16 @@ struct thread
     /* Owned by thread.c. */
     unsigned magic;                     /* Detects stack overflow. */
   };
+
+struct child_info{
+  struct thread * child;
+  struct thread * parent;
+  struct semaphore child_loaded;
+  struct list_elem * child_elem;
+  int alive_count;        /* bool other_exited, check for true when exiting? */
+  int exit_code;
+  tid_t child_tid;
+}
 
 /* If false (default), use round-robin scheduler.
    If true, use multi-level feedback queue scheduler.
