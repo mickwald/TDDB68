@@ -5,6 +5,7 @@
 #include <list.h>
 #include <stdint.h>
 #include <bitmap.h>
+#include "threads/synch.h"
 
 /* States in a thread's life cycle. */
 enum thread_status
@@ -123,7 +124,7 @@ struct child_info{
   int alive_count;        /* bool other_exited, check for true when exiting? */
   int exit_code;
   tid_t child_tid;
-}
+};
 
 /* If false (default), use round-robin scheduler.
    If true, use multi-level feedback queue scheduler.
