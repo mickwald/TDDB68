@@ -1,6 +1,17 @@
 FAIL
-Kernel panic in run: PANIC at ../../userprog/exception.c:100 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0xc010708b 0xc010915c
-Translation of call stack:
-0xc010708b: debug_panic (.../../lib/kernel/debug.c:34)
-0xc010915c: process_wait (...../userprog/process.c:119)
+Test output failed to match any acceptable form.
+
+Acceptable output:
+  (open-bad-ptr) begin
+  (open-bad-ptr) end
+  open-bad-ptr: exit(0)
+Differences in `diff -u' format:
+  (open-bad-ptr) begin
+- (open-bad-ptr) end
+- open-bad-ptr: exit(0)
+Acceptable output:
+  (open-bad-ptr) begin
+  open-bad-ptr: exit(-1)
+Differences in `diff -u' format:
+  (open-bad-ptr) begin
+- open-bad-ptr: exit(-1)

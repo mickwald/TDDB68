@@ -111,16 +111,22 @@ start_process (void *file_name_)
 int
 process_wait (tid_t child_tid)
 {
-  struct list * tmp_list = &thread_current()->child_list;
-  struct list_elem * e;
-  for ( e = list_begin(tmp_list); e != list_end(tmp_list); e = list_next(e)){
-    struct child_info * tmp_ci = list_entry(e, struct thread, elem)->ci_copy;
-    printf("acquired tmp_ci: %p\n", tmp_ci);
-    if(tmp_ci->child_tid == child_tid){
-      sema_down(&tmp_ci->wait_sema);
-      list_remove(&tmp_ci->child_elem);
-      return tmp_ci->exit_code;
+  if(&thread_current()->child_list != NULL){
+    struct list * tmp_list = &thread_current()->child_list;
+    struct list_elem * e;
+    if(!list_empty(tmp_list)){
+      for ( e = list_begin(tmp_list); e != list_end(tmp_list); e = list_next(e)){
+        struct child_info * tmp_ci = list_entry(e, struct thread, elem)->ci_copy;
+        //printf("acquired tmp_ci: %p\n", tmp_ci);
+        if(tmp_ci != 0 && tmp_ci->child_tid == child_tid){
+          sema_down(&tmp_ci->wait_sema);
+          list_remove(&tmp_ci->child_elem);
+          return tmp_ci->exit_code;
+        }
+
+      }
     }
+    return -1;
   }
   return -1;
 }
@@ -326,7 +332,7 @@ load (const char *file_name, void (**eip) (void), void **esp)
    /* Uncomment the following line to print some debug
      information. This will be useful when you debug the program
      stack.*/
-#define STACK_DEBUG
+//#define STACK_DEBUG
 
 #ifdef STACK_DEBUG
   printf("*esp is %p\nstack contents:\n", *esp);

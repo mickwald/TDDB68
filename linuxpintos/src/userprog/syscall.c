@@ -41,7 +41,8 @@ syscall_handler (struct intr_frame *f UNUSED)
       break;
 
     case SYS_EXIT:
-      exit_code = (int) f->esp+4;
+      exit_code = *((int*) f->esp+4);
+      //printf("Exit code: %d\n\n\n\n\n\n", exit_code);
       exit_func(exit_code);
       break;
 
@@ -145,6 +146,7 @@ syscall_handler (struct intr_frame *f UNUSED)
 void exit_func(int exit_code){
   if(thread_current()->parent_ci != NULL){
       thread_current()->parent_ci->exit_code = exit_code;
+
   }
   printf("%s: exit(%d)\n", thread_current()->name, exit_code);
   thread_exit();
