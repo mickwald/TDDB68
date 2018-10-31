@@ -41,7 +41,7 @@ syscall_handler (struct intr_frame *f UNUSED)
       break;
 
     case SYS_EXIT:
-      exit_code = *((int*) f->esp+4);
+      exit_code = *((int*) f->esp+1);
       //printf("Exit code: %d\n\n\n\n\n\n", exit_code);
       exit_func(exit_code);
       break;

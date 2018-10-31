@@ -48,3 +48,4 @@ FAIL tests/userprog/wait-twice
 FAIL tests/userprog/wait-killed
 pass tests/userprog/wait-bad-pid
 FAIL tests/userprog/multi-recurse
+33 of 50 tests failed.
