@@ -1,5 +1,6 @@
 FAIL
-Kernel panic in run: PANIC at ../../lib/kernel/list.c:171 in list_insert(): assertion `is_interior (before) || is_tail (before)' failed.
-Call stack: 0xc010707b
+Kernel panic in run: PANIC at ../../userprog/exception.c:100 in kill(): Kernel bug - unexpected interrupt in kernel
+Call stack: 0xc010708b 0xc010915c
 Translation of call stack:
-0xc010707b: debug_panic (.../../lib/kernel/debug.c:34)
+0xc010708b: debug_panic (.../../lib/kernel/debug.c:34)
+0xc010915c: process_wait (...../userprog/process.c:119)

@@ -38,7 +38,8 @@ process_execute (const char *file_name)
   lock_init(&ci->exit_lock);
   ci->alive_count = 2;
   ci->exit_code = -1;
-  list_push_back(&thread_current()->child_list, ci->child_elem);
+  thread_current()->child_load_success = false;
+  list_push_back(&thread_current()->child_list,&ci->child_elem);
   thread_current()->ci_copy = ci;
 
   /* Make a copy of FILE_NAME.
@@ -54,6 +55,10 @@ process_execute (const char *file_name)
   ci->child_tid = tid;
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy);
+
+  if(!thread_current()->child_load_success){
+    tid = -1;
+  }
   return tid;
 }
 
@@ -65,6 +70,8 @@ start_process (void *file_name_)
   char *file_name = file_name_;
   struct intr_frame if_;
   bool success;
+
+  //printf("Starting process\n\n\n");
 
   /* Initialize interrupt frame and load executable. */
   memset (&if_, 0, sizeof if_);
@@ -108,9 +115,10 @@ process_wait (tid_t child_tid)
   struct list_elem * e;
   for ( e = list_begin(tmp_list); e != list_end(tmp_list); e = list_next(e)){
     struct child_info * tmp_ci = list_entry(e, struct thread, elem)->ci_copy;
+    printf("acquired tmp_ci: %p\n", tmp_ci);
     if(tmp_ci->child_tid == child_tid){
       sema_down(&tmp_ci->wait_sema);
-      list_remove(tmp_ci->child_elem);
+      list_remove(&tmp_ci->child_elem);
       return tmp_ci->exit_code;
     }
   }
@@ -259,6 +267,7 @@ static bool load_segment (struct file *file, off_t ofs, uint8_t *upage,
 bool
 load (const char *file_name, void (**eip) (void), void **esp)
 {
+  //printf("Loading\n\n\n");
   struct thread *t = thread_current ();
   struct Elf32_Ehdr ehdr;
   struct file *file = NULL;
@@ -277,10 +286,47 @@ load (const char *file_name, void (**eip) (void), void **esp)
     goto done;
   }
 
+  char s[32];
+  ASSERT(s!=NULL);
+  strlcpy (s, file_name, strlen(file_name)+1);
+  char *token , *save_ptr;
+  char *argv[32];
+  int argc = 0;
+
+  for( token = strtok_r(s, " ", &save_ptr); token != NULL; token = strtok_r(NULL, " ", &save_ptr)){
+    argv[argc] = token;
+    argc++;
+  }
+  char * fn_cop = argv[0];
+  strlcpy(t->name, fn_cop, sizeof(t->name));
+  for(i = argc-1; i>=0;i--){
+    *esp -= strlen(argv[i])+1;
+    strlcpy(*(char**) esp, argv[i], strlen(argv[i])+1);
+    argv[i] = *esp;
+  }
+
+  /* Align */
+  *esp -= (unsigned) *esp % 4;
+  *esp -= 4;
+  *(int*)*esp = NULL;
+  *esp -= 4;
+
+  int j;
+  for(j = argc-1; j >=0; j--){
+    *(int*)*esp = argv[j];
+    *esp -=4;
+  }
+
+  *(int*)*esp = *esp+4;
+  *esp -= 4;
+  **(int **)esp = argc;
+  *esp -= 4;
+  *(int*)*esp = NULL;
+
    /* Uncomment the following line to print some debug
      information. This will be useful when you debug the program
      stack.*/
-/*#define STACK_DEBUG*/
+#define STACK_DEBUG
 
 #ifdef STACK_DEBUG
   printf("*esp is %p\nstack contents:\n", *esp);
@@ -314,9 +360,9 @@ load (const char *file_name, void (**eip) (void), void **esp)
     i++;
   }
 #endif
-
+  //printf("file: \"%s\"\n", file_name);
   /* Open executable file. */
-  file = filesys_open (file_name);
+  file = filesys_open (fn_cop);
   if (file == NULL)
     {
       printf ("load: %s: open failed\n", file_name);
@@ -527,7 +573,7 @@ setup_stack (void **esp)
     {
       success = install_page (((uint8_t *) PHYS_BASE) - PGSIZE, kpage, true);
       if (success)
-        *esp = PHYS_BASE - 12;
+        *esp = PHYS_BASE;
       else
         palloc_free_page (kpage);
     }

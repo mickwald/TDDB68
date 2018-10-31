@@ -1,7 +1,6 @@
 FAIL
-Kernel panic in run: PANIC at ../../lib/kernel/list.c:259 in list_remove(): assertion `is_interior (elem)' failed.
-Call stack: 0xc010705b 0x6772612d
+Kernel panic in run: PANIC at ../../userprog/exception.c:100 in kill(): Kernel bug - unexpected interrupt in kernel
+Call stack: 0xc010708b 0xc010915c
 Translation of call stack:
-In kernel.o:
-0xc010705b: debug_panic (.../../lib/kernel/debug.c:34)
-0x6772612d: (unknown)
+0xc010708b: debug_panic (.../../lib/kernel/debug.c:34)
+0xc010915c: process_wait (...../userprog/process.c:119)
