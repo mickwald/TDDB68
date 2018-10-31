@@ -8,3 +8,4 @@ Differences in `diff -u' format:
   (sc-bad-arg) begin
 - sc-bad-arg: exit(-1)
 + sc-bad-arg: exit(-268370093)
++ lol

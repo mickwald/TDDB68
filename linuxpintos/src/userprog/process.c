@@ -51,6 +51,7 @@ process_execute (const char *file_name)
 
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
+
   sema_down(&ci->child_loaded);
   ci->child_tid = tid;
   if (tid == TID_ERROR)
@@ -137,17 +138,18 @@ process_exit (void)
 {
   struct thread *cur = thread_current ();
   uint32_t *pd;
+  if(&cur->parent_ci != NULL){
+    struct thread * parent = cur->parent_ci->parent;
+    if(parent != NULL){
+      lock_acquire(&cur->parent_ci->exit_lock);
+      cur->parent_ci->alive_count--;
+      lock_release(&cur->parent_ci->exit_lock);
 
-  struct thread * parent = cur->parent_ci->parent;
-  if(parent != NULL){
-    lock_acquire(&cur->parent_ci->exit_lock);
-    cur->parent_ci->alive_count--;
-    lock_release(&cur->parent_ci->exit_lock);
-
-    if(cur->parent_ci->alive_count == 0){
-      free(cur->parent_ci);
-    } else {
-      sema_up(&cur->parent_ci->wait_sema);
+      if(cur->parent_ci->alive_count == 0){
+        free(cur->parent_ci);
+      } else {
+        sema_up(&cur->parent_ci->wait_sema);
+      }
     }
   }
 

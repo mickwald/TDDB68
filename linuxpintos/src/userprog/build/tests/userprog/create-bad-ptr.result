@@ -7,3 +7,4 @@ Acceptable output:
 Differences in `diff -u' format:
   (create-bad-ptr) begin
 - create-bad-ptr: exit(-1)
++ lol

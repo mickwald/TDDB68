@@ -11,3 +11,4 @@ Differences in `diff -u' format:
   (open-boundary) open "sample.txt"
 - (open-boundary) end
 - open-boundary: exit(0)
++ lol

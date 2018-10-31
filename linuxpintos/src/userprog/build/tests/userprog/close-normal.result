@@ -13,3 +13,4 @@ Differences in `diff -u' format:
 - (close-normal) close "sample.txt"
 - (close-normal) end
 - close-normal: exit(0)
++ lol

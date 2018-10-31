@@ -11,3 +11,4 @@ Differences in `diff -u' format:
 - (create-bound) create("quux.dat"): 1
 - (create-bound) end
 - create-bound: exit(0)
++ lol

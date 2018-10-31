@@ -7,3 +7,4 @@ Acceptable output:
 Differences in `diff -u' format:
   (create-null) begin
 - create-null: exit(-1)
++ lol

@@ -15,3 +15,7 @@ Differences in `diff -u' format:
 - (wait-killed) wait(exec()) = -1
 - (wait-killed) end
 - wait-killed: exit(0)
++ Filename: child-bad
++ 
++ 
++ lol

@@ -8,6 +8,7 @@
 #include "devices/input.h"
 #include "filesys/file.h"
 #include "process.h"
+#include "lib/kernel/bitmap.h"
 
 static void syscall_handler (struct intr_frame *);
 
@@ -34,6 +35,7 @@ syscall_handler (struct intr_frame *f UNUSED)
   int exit_code;
   int pid;
   struct thread * cur_thread = thread_current();
+  bool temp;
   switch (*sysnum)
   {
     case SYS_HALT :
@@ -68,7 +70,10 @@ syscall_handler (struct intr_frame *f UNUSED)
 
     case SYS_EXEC:
       filename = f->esp+4;
+      printf("Filename: %s\n\n\n", *filename);
       pid = process_execute(*filename);
+      printf("pid: %d", pid);
+      f->eax = pid;
       break;
 
     case SYS_CLOSE:
@@ -105,8 +110,10 @@ syscall_handler (struct intr_frame *f UNUSED)
 
   case SYS_CREATE:
     filename = f->esp+4;
+    temp = true;
     size = f->esp+8;
-    f->eax = filesys_create(*filename,*size);
+    temp = filesys_create(*filename,*size);
+    f->eax = temp;
     break;
 
   case SYS_READ:
