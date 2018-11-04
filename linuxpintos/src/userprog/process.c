@@ -155,13 +155,15 @@ process_exit (void)
       } else {
         sema_up(&cur->parent_ci->wait_sema);
       }
+
     }
+
   }
 
   struct list * tmp_list = &cur->child_list;
   struct list_elem * e;
   for ( e = list_begin(tmp_list); e != list_end(tmp_list); e = list_next(e)){
-    struct child_info * tmp_ci = list_entry(e, struct thread, elem)->ci_copy;
+    struct child_info * tmp_ci = list_entry(e, struct child_info, child_elem);
     lock_acquire(&tmp_ci->exit_lock);
     tmp_ci->alive_count--;
     lock_release(&tmp_ci->exit_lock);

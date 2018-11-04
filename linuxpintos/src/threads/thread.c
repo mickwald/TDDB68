@@ -303,7 +303,6 @@ thread_exit (void)
   }
   bitmap_destroy(thread_current()->fd_map);
 #endif
-
 #ifdef USERPROG
   process_exit ();
 #endif

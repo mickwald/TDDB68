@@ -1,8 +1,1 @@
-FAIL
-Kernel panic in run: PANIC at ../../userprog/exception.c:100 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0xc010708b 0xc0106766 0x6e65706f
-Translation of call stack:
-In kernel.o:
-0xc010708b: debug_panic (.../../lib/kernel/debug.c:34)
-0xc0106766: strcmp (...ng.c:81 (discriminator 1))
-0x6e65706f: (unknown)
+PASS
