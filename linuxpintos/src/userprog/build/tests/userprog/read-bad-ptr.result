@@ -1,21 +1,6 @@
 FAIL
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (read-bad-ptr) begin
-  (read-bad-ptr) open "sample.txt"
-  read-bad-ptr: exit(-1)
-Differences in `diff -u' format:
-  (read-bad-ptr) begin
-  (read-bad-ptr) open "sample.txt"
-- read-bad-ptr: exit(-1)
-Acceptable output:
-  (read-bad-ptr) begin
-  (read-bad-ptr) open "sample.txt"
-  (read-bad-ptr) end
-  read-bad-ptr: exit(0)
-Differences in `diff -u' format:
-  (read-bad-ptr) begin
-  (read-bad-ptr) open "sample.txt"
-- (read-bad-ptr) end
-- read-bad-ptr: exit(0)
+Kernel panic in run: PANIC at ../../userprog/exception.c:100 in kill(): Kernel bug - unexpected interrupt in kernel
+Call stack: 0xc010708b 0xc010657d
+Translation of call stack:
+0xc010708b: debug_panic (.../../lib/kernel/debug.c:34)
+0xc010657d: memcpy (...ild/../../lib/string.c:16)

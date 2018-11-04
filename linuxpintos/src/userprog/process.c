@@ -52,14 +52,19 @@ process_execute (const char *file_name)
   /* Create a new thread to execute FILE_NAME. */
   tid = thread_create (file_name, PRI_DEFAULT, start_process, fn_copy);
 
+
   sema_down(&ci->child_loaded);
+
+
   ci->child_tid = tid;
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy);
 
-  if(!thread_current()->child_load_success){
+  if(!ci->parent->child_load_success){
     tid = -1;
   }
+
+  //printf("Process Execute tid: %d\n", (int) tid);
   return tid;
 }
 
@@ -81,15 +86,14 @@ start_process (void *file_name_)
   if_.eflags = FLAG_IF | FLAG_MBS;
   success = load (file_name, &if_.eip, &if_.esp);
 
-
+  sema_up(&thread_current()->parent_ci->child_loaded);
+  thread_current()->parent_ci->parent->child_load_success = success;
 
   /* If load failed, quit. */
   palloc_free_page (file_name);
   if (!success)
     thread_exit ();
 
-  sema_up(&thread_current()->parent_ci->child_loaded);
-  thread_current()->parent_ci->parent->child_load_success = true;
   /* Start the user process by simulating a return from an
      interrupt, implemented by intr_exit (in
      threads/intr-stubs.S).  Because intr_exit takes all of its
@@ -117,7 +121,7 @@ process_wait (tid_t child_tid)
     struct list_elem * e;
     if(!list_empty(tmp_list)){
       for ( e = list_begin(tmp_list); e != list_end(tmp_list); e = list_next(e)){
-        struct child_info * tmp_ci = list_entry(e, struct thread, elem)->ci_copy;
+        struct child_info * tmp_ci = list_entry(e, struct child_info, child_elem);
         //printf("acquired tmp_ci: %p\n", tmp_ci);
         if(tmp_ci != 0 && tmp_ci->child_tid == child_tid){
           sema_down(&tmp_ci->wait_sema);

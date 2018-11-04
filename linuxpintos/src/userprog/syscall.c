@@ -18,7 +18,7 @@ syscall_init (void)
   intr_register_int (0x30, 3, INTR_ON, syscall_handler, "syscall");
 }
 void exit_func(int exit_code);
-bool validate__input(char* string);
+//bool validate__input(char* string);
 static void
 syscall_handler (struct intr_frame *f UNUSED)
 {
@@ -51,6 +51,7 @@ syscall_handler (struct intr_frame *f UNUSED)
 
     case SYS_WAIT:
       exit_code = process_wait((tid_t) f->esp+4);
+      //printf("exit code: %d\n", exit_code);
       f->eax = exit_code;
       break;
 
@@ -71,9 +72,9 @@ syscall_handler (struct intr_frame *f UNUSED)
 
     case SYS_EXEC:
       filename = f->esp+4;
-      printf("Filename: %s\n\n\n", *filename);
+      //printf("Filename: %s\n\n\n", *filename);
       pid = process_execute(*filename);
-      printf("pid: %d", pid);
+      //printf("pid: %d\n", pid);
       f->eax = pid;
       break;
 
@@ -150,11 +151,11 @@ syscall_handler (struct intr_frame *f UNUSED)
     break;
   }
 }
-
+/*
 bool validate__input(char* string){
 
 }
-
+*/
 void exit_func(int exit_code){
   if(thread_current()->parent_ci != NULL){
       thread_current()->parent_ci->exit_code = exit_code;

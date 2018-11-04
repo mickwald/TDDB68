@@ -1,17 +1,5 @@
 FAIL
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (open-null) begin
-  open-null: exit(-1)
-Differences in `diff -u' format:
-  (open-null) begin
-- open-null: exit(-1)
-Acceptable output:
-  (open-null) begin
-  (open-null) end
-  open-null: exit(0)
-Differences in `diff -u' format:
-  (open-null) begin
-- (open-null) end
-- open-null: exit(0)
+Kernel panic in run: PANIC at ../../filesys/directory.c:125 in dir_lookup(): assertion `name != NULL' failed.
+Call stack: 0xc010708b
+Translation of call stack:
+0xc010708b: debug_panic (.../../lib/kernel/debug.c:34)

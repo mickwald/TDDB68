@@ -3,19 +3,14 @@ Test output failed to match any acceptable form.
 
 Acceptable output:
   (exec-missing) begin
-  load: no-such-file: open failed
   (exec-missing) exec("no-such-file"): -1
   (exec-missing) end
   exec-missing: exit(0)
 Differences in `diff -u' format:
   (exec-missing) begin
-- load: no-such-file: open failed
 - (exec-missing) exec("no-such-file"): -1
 - (exec-missing) end
 - exec-missing: exit(0)
-+ Filename: no-such-file
-+ 
-+ 
 Acceptable output:
   (exec-missing) begin
   load: no-such-file: open failed
@@ -30,22 +25,18 @@ Differences in `diff -u' format:
 - (exec-missing) exec("no-such-file"): -1
 - (exec-missing) end
 - exec-missing: exit(0)
-+ Filename: no-such-file
-+ 
-+ 
 Acceptable output:
   (exec-missing) begin
+  load: no-such-file: open failed
   (exec-missing) exec("no-such-file"): -1
   (exec-missing) end
   exec-missing: exit(0)
 Differences in `diff -u' format:
   (exec-missing) begin
+- load: no-such-file: open failed
 - (exec-missing) exec("no-such-file"): -1
 - (exec-missing) end
 - exec-missing: exit(0)
-+ Filename: no-such-file
-+ 
-+ 
 Acceptable output:
   (exec-missing) begin
   load: no-such-file: open failed
@@ -60,6 +51,3 @@ Differences in `diff -u' format:
 - no-such-file: exit(-1)
 - (exec-missing) end
 - exec-missing: exit(0)
-+ Filename: no-such-file
-+ 
-+ 

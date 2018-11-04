@@ -17,6 +17,3 @@ Differences in `diff -u' format:
 - (wait-twice) wait(exec()) = -1
 - (wait-twice) end
 - wait-twice: exit(0)
-+ Filename: child-simple
-+ 
-+ 
