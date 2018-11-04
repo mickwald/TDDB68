@@ -11,4 +11,3 @@ Differences in `diff -u' format:
   (create-normal) create quux.dat
 - (create-normal) end
 - create-normal: exit(0)
-+ lol

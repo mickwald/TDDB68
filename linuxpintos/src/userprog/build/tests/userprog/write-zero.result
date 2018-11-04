@@ -11,4 +11,3 @@ Differences in `diff -u' format:
   (write-zero) open "sample.txt"
 - (write-zero) end
 - write-zero: exit(0)
-+ lol

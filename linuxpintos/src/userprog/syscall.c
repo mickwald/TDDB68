@@ -18,6 +18,7 @@ syscall_init (void)
   intr_register_int (0x30, 3, INTR_ON, syscall_handler, "syscall");
 }
 void exit_func(int exit_code);
+bool validate__input(char* string);
 static void
 syscall_handler (struct intr_frame *f UNUSED)
 {
@@ -112,7 +113,7 @@ syscall_handler (struct intr_frame *f UNUSED)
     filename = f->esp+4;
     temp = true;
     size = f->esp+8;
-    temp = filesys_create(*filename,*size);
+    temp = filesys_create(*filename,(off_t) *size);
     f->eax = temp;
     break;
 
@@ -148,6 +149,10 @@ syscall_handler (struct intr_frame *f UNUSED)
     thread_exit();
     break;
   }
+}
+
+bool validate__input(char* string){
+
 }
 
 void exit_func(int exit_code){

@@ -1,10 +1,6 @@
 FAIL
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (create-bad-ptr) begin
-  create-bad-ptr: exit(-1)
-Differences in `diff -u' format:
-  (create-bad-ptr) begin
-- create-bad-ptr: exit(-1)
-+ lol
+Kernel panic in run: PANIC at ../../userprog/exception.c:100 in kill(): Kernel bug - unexpected interrupt in kernel
+Call stack: 0xc010708b 0xc0106c02
+Translation of call stack:
+0xc010708b: debug_panic (.../../lib/kernel/debug.c:34)
+0xc0106c02: strnlen (...ld/../../lib/string.c:311)

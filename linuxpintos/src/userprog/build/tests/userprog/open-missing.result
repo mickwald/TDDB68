@@ -9,4 +9,3 @@ Differences in `diff -u' format:
   (open-missing) begin
 - (open-missing) end
 - open-missing: exit(0)
-+ lol

@@ -19,4 +19,9 @@ Differences in `diff -u' format:
 - (create-exists) try to re-create quux.dat
 - (create-exists) end
 - create-exists: exit(0)
-+ lol
++ Filename: quux.dat, Size: 0
++ 
++ Entered filesys_create
++ 
++ filesys size: 0
++ 

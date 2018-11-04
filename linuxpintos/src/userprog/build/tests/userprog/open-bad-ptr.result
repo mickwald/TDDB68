@@ -9,11 +9,9 @@ Differences in `diff -u' format:
   (open-bad-ptr) begin
 - (open-bad-ptr) end
 - open-bad-ptr: exit(0)
-+ lol
 Acceptable output:
   (open-bad-ptr) begin
   open-bad-ptr: exit(-1)
 Differences in `diff -u' format:
   (open-bad-ptr) begin
 - open-bad-ptr: exit(-1)
-+ lol

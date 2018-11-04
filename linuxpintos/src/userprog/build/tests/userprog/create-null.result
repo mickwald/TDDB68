@@ -7,4 +7,9 @@ Acceptable output:
 Differences in `diff -u' format:
   (create-null) begin
 - create-null: exit(-1)
-+ lol
++ Filename: (null), Size: 0
++ 
++ Entered filesys_create
++ 
++ filesys size: 0
++ 

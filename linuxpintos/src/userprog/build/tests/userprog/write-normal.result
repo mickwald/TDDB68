@@ -13,4 +13,5 @@ Differences in `diff -u' format:
 - (write-normal) open "test.txt"
 - (write-normal) end
 - write-normal: exit(0)
-+ lol
++ Filename: test.txt, Size: 239
++ 
