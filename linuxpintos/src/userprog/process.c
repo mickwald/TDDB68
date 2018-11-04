@@ -38,6 +38,7 @@ process_execute (const char *file_name)
   lock_init(&ci->exit_lock);
   ci->alive_count = 2;
   ci->exit_code = -1;
+  ci->parent = thread_current();
   thread_current()->child_load_success = false;
   list_push_back(&thread_current()->child_list,&ci->child_elem);
   thread_current()->ci_copy = ci;
@@ -60,6 +61,8 @@ process_execute (const char *file_name)
   if (tid == TID_ERROR)
     palloc_free_page (fn_copy);
 
+  //printf("Process Execute tid: %d\n", (int) tid);
+  //printf("process execute success = %s\n", thread_current()->child_load_success?"true":"false");
   if(!ci->parent->child_load_success){
     tid = -1;
   }
@@ -85,7 +88,7 @@ start_process (void *file_name_)
   if_.cs = SEL_UCSEG;
   if_.eflags = FLAG_IF | FLAG_MBS;
   success = load (file_name, &if_.eip, &if_.esp);
-
+  //printf("Child_load_success = %s\n", success?"true":"false");
   sema_up(&thread_current()->parent_ci->child_loaded);
   thread_current()->parent_ci->parent->child_load_success = success;
 
@@ -119,19 +122,17 @@ process_wait (tid_t child_tid)
   if(&thread_current()->child_list != NULL){
     struct list * tmp_list = &thread_current()->child_list;
     struct list_elem * e;
-    if(!list_empty(tmp_list)){
+    //printf("wait for tid: %d ", child_tid);
       for ( e = list_begin(tmp_list); e != list_end(tmp_list); e = list_next(e)){
         struct child_info * tmp_ci = list_entry(e, struct child_info, child_elem);
         //printf("acquired tmp_ci: %p\n", tmp_ci);
+        //printf("looking at child with tid: %d\n\n", tmp_ci->child_tid);
         if(tmp_ci != 0 && tmp_ci->child_tid == child_tid){
           sema_down(&tmp_ci->wait_sema);
           list_remove(&tmp_ci->child_elem);
           return tmp_ci->exit_code;
         }
-
-      }
     }
-    return -1;
   }
   return -1;
 }

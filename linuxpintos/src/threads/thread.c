@@ -202,7 +202,7 @@ thread_create (const char *name, int priority,
   sf = alloc_frame (t, sizeof *sf);
   sf->eip = switch_entry;
 
-
+  list_init(&t->child_list);
   #ifdef USERPROG
     /* Bitmap for open files. */
     t->fd_map = bitmap_create(FILE_BITMAP_SIZE);

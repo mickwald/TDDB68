@@ -50,7 +50,9 @@ syscall_handler (struct intr_frame *f UNUSED)
       break;
 
     case SYS_WAIT:
-      exit_code = process_wait((tid_t) f->esp+4);
+      //printf("Syscall WAIT\n");
+      //printf("Current tid: %d\n", *((int*)f->esp+4));
+      exit_code = process_wait((tid_t) *((int*)f->esp+4));
       //printf("exit code: %d\n", exit_code);
       f->eax = exit_code;
       break;
@@ -71,9 +73,11 @@ syscall_handler (struct intr_frame *f UNUSED)
       break;
 
     case SYS_EXEC:
+      //printf("Syscall EXEC\n");
       filename = f->esp+4;
-      //printf("Filename: %s\n\n\n", *filename);
+      //printf("Filename: %s\n", *filename);
       pid = process_execute(*filename);
+      //printf("process execute done\n");
       //printf("pid: %d\n", pid);
       f->eax = pid;
       break;
