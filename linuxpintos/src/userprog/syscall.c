@@ -181,6 +181,7 @@ syscall_handler (struct intr_frame *f UNUSED)
   case SYS_TELL:
     if(!validate_pointer(f->esp+4)) exit_status(-1);
     fd = f->esp+4;
+    *fd-=2;  //STDIN_FILENO & STDOUT_FILENO is checked for, *fd-=2 won't be smaller than 0.
     if(bitmap_test(cur_thread->fd_map,*fd)){
       f->eax = file_tell(cur_thread->fd[*fd]);
     } else {
@@ -193,6 +194,7 @@ syscall_handler (struct intr_frame *f UNUSED)
     if(!validate_pointer(f->esp+4)) exit_status(-1);
     if(!validate_pointer(f->esp+8)) exit_status(-1);
     fd = f->esp+4;
+    *fd-=2;  //STDIN_FILENO & STDOUT_FILENO is checked for, *fd-=2 won't be smaller than 0.
     unsigned pos = f->esp+8;
     if(bitmap_test(cur_thread->fd_map,*fd)){
       struct file * file_to_seek;
@@ -207,15 +209,14 @@ syscall_handler (struct intr_frame *f UNUSED)
     break;
 
   case SYS_FILESIZE:
-    printf("SYS_FILESIZE\n");
     if(!validate_pointer(f->esp+4)) exit_status(-1);
     fd = f->esp+4;
+    *fd-=2;  //STDIN_FILENO & STDOUT_FILENO is checked for, *fd-=2 won't be smaller than 0.
     if(bitmap_test(cur_thread->fd_map,*fd)){
       f->eax = file_length(cur_thread->fd[*fd]);
     } else {
       f->eax = -1;
     }
-    thread_exit();
     break;
 
   case SYS_REMOVE:
