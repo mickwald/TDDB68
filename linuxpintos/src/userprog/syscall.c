@@ -177,6 +177,55 @@ syscall_handler (struct intr_frame *f UNUSED)
       f->eax = -1;
     }
     break;
+  /* Lab4 */
+  case SYS_TELL:
+    if(!validate_pointer(f->esp+4)) exit_status(-1);
+    fd = f->esp+4;
+    if(bitmap_test(cur_thread->fd_map,*fd)){
+      f->eax = file_tell(cur_thread->fd[*fd]);
+    } else {
+      f->eax = -1;
+    }
+    break;
+
+  case SYS_SEEK:
+    printf("SYS_SEEK\n");
+    if(!validate_pointer(f->esp+4)) exit_status(-1);
+    if(!validate_pointer(f->esp+8)) exit_status(-1);
+    fd = f->esp+4;
+    unsigned pos = f->esp+8;
+    if(bitmap_test(cur_thread->fd_map,*fd)){
+      struct file * file_to_seek;
+      file_to_seek = cur_thread->fd[*fd];
+      unsigned len = file_length(file_to_seek);
+      if(pos < len){
+        file_seek(file_to_seek,pos);
+      } else {
+        file_seek(file_to_seek,len);
+      }
+    }
+    break;
+
+  case SYS_FILESIZE:
+    printf("SYS_FILESIZE\n");
+    if(!validate_pointer(f->esp+4)) exit_status(-1);
+    fd = f->esp+4;
+    if(bitmap_test(cur_thread->fd_map,*fd)){
+      f->eax = file_length(cur_thread->fd[*fd]);
+    } else {
+      f->eax = -1;
+    }
+    thread_exit();
+    break;
+
+  case SYS_REMOVE:
+    printf("SYS_REMOVE\n");
+    if(!validate_pointer(f->esp+4)) exit_status(-1);
+    filename = f->esp+4;
+    if(!validate_input(*filename)) exit_status(-1);
+    f->eax = filesys_remove(*filename);
+    break;
+  /* End lab4 */
 
   default:
     printf("system call!\n");
