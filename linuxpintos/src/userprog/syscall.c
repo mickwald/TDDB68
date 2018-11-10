@@ -190,12 +190,13 @@ syscall_handler (struct intr_frame *f UNUSED)
     break;
 
   case SYS_SEEK:
-    printf("SYS_SEEK\n");
     if(!validate_pointer(f->esp+4)) exit_status(-1);
     if(!validate_pointer(f->esp+8)) exit_status(-1);
     fd = f->esp+4;
     *fd-=2;  //STDIN_FILENO & STDOUT_FILENO is checked for, *fd-=2 won't be smaller than 0.
-    unsigned pos = f->esp+8;
+    unsigned pos = *(int*) (f->esp+8);
+
+    //printf("SYS_SEEK: fd = %d, offset recieved = %d\n", *fd, pos);
     if(bitmap_test(cur_thread->fd_map,*fd)){
       struct file * file_to_seek;
       file_to_seek = cur_thread->fd[*fd];
@@ -220,7 +221,6 @@ syscall_handler (struct intr_frame *f UNUSED)
     break;
 
   case SYS_REMOVE:
-    printf("SYS_REMOVE\n");
     if(!validate_pointer(f->esp+4)) exit_status(-1);
     filename = f->esp+4;
     if(!validate_input(*filename)) exit_status(-1);
