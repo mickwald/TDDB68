@@ -143,7 +143,7 @@ process_exit (void)
 {
   struct thread *cur = thread_current ();
   uint32_t *pd;
-  if(&cur->parent_ci != NULL){
+  if(cur->parent_ci != NULL){
     struct thread * parent = cur->parent_ci->parent;
     if(parent != NULL){
       lock_acquire(&cur->parent_ci->exit_lock);
@@ -157,9 +157,7 @@ process_exit (void)
       }
 
     }
-
   }
-
   struct list * tmp_list = &cur->child_list;
   struct list_elem * e;
   for ( e = list_begin(tmp_list); e != list_end(tmp_list); e = list_next(e)){
