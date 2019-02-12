@@ -42,7 +42,7 @@ struct inode
 
 
     struct lock mod_cnt_lock;
-    struct lock write_lock;         //write-lock
+    struct semaphore write_lock;         //write-lock
     int readers;
     struct lock read_cnt_lock;      //mod-readers-lock
 
@@ -155,7 +155,7 @@ inode_open (disk_sector_t sector)
   inode->deny_write_cnt = 0;
   inode->removed = false;
   lock_init(&inode->mod_cnt_lock);
-  lock_init(&inode->write_lock);
+  sema_init(&inode->write_lock,1);
   lock_init(&inode->read_cnt_lock);
   inode->readers = 0;
   disk_read (filesys_disk, inode->sector, &inode->data);
@@ -241,7 +241,7 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset)
   lock_acquire(&inode->read_cnt_lock);
   inode->readers++;
   if(inode->readers==1){
-    lock_acquire(&inode->write_lock);
+    sema_down(&inode->write_lock);
   }
   lock_release(&inode->read_cnt_lock);
   /*    */
@@ -290,7 +290,7 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset)
   /* Synch lab4 */
   lock_acquire(&inode->read_cnt_lock);
   if(--inode->readers == 0){
-    lock_release(&inode->write_lock);
+    sema_up(&inode->write_lock);
   }
   lock_release(&inode->read_cnt_lock);
   /*      */
@@ -319,7 +319,7 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
     lock_release(&inode->mod_cnt_lock);
   }
 
-  lock_acquire(&inode->write_lock);
+  sema_down(&inode->write_lock);
   /*      */
 
   while (size > 0)
@@ -372,7 +372,7 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
   free (bounce);
 
   /* Synch lab4 */
-  lock_release(&inode->write_lock);
+  sema_up(&inode->write_lock);
   /*      */
 
   return bytes_written;

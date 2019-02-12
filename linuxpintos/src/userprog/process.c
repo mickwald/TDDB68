@@ -40,7 +40,6 @@ process_execute (const char *file_name)
   ci->exit_code = -1;
   ci->parent = thread_current();
   thread_current()->child_load_success = false;
-  list_push_back(&thread_current()->child_list,&ci->child_elem);
   thread_current()->ci_copy = ci;
 
   /* Make a copy of FILE_NAME.
@@ -65,6 +64,9 @@ process_execute (const char *file_name)
   //printf("process execute success = %s\n", thread_current()->child_load_success?"true":"false");
   if(!ci->parent->child_load_success){
     tid = -1;
+    free(ci);
+  } else {
+    list_push_back(&thread_current()->child_list,&ci->child_elem);
   }
 
   //printf("Process Execute tid: %d\n", (int) tid);
